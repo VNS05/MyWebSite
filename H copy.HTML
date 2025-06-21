@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Haruki | Web Developer & Anime UI Dreamer</title>
+    <style>
+      /* 🌸 Color Palette (Both Modes) */
+      :root {
+        --text-color: #101314;
+        --background-color: #f9f4f0;
+        --primary-color: #8c48ea;
+        --secondary-color: #694612;
+        --accent-color: #27ddd7;
+      }
+
+      body.dark-mode {
+        --text-color: #f9f4f0;
+        --background-color: #101314;
+        --secondary-color: #f6dba5;
+      }
+
+      /* 🌼 Reset + Base */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: var(--background-color);
+        color: var(--text-color);
+        transition: background 0.4s ease, color 0.4s ease;
+        overflow-x: hidden;
+      }
+
+      /* 🌸 Hero Section */
+      .hero {
+        padding: 6rem 2rem 8rem;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        height: 100vh;
+      }
+
+      .hero-avatar {
+        position: absolute;
+        top: 60%;
+        left: 80%;
+        transform: translate(-50%, -50%);
+        width: 740px;
+        height: auto;
+        margin-bottom: 1.2rem;
+        transition: transform 0.4s ease;
+        z-index: -1;
+      }
+
+      .tagline {
+        font-size: 1.1rem;
+        color: var(--secondary-color);
+        margin-bottom: 0.4rem;
+      }
+
+      .headline {
+        font-size: 2.8rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+
+      #typewriter::after {
+        content: "|";
+        animation: blink 1s infinite;
+        color: var(--primary-color);
+        margin-left: 4px;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .description {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        line-height: 1.6;
+      }
+
+      .hero-buttons .btn {
+        padding: 0.9rem 1.8rem;
+        margin: 0 0.5rem;
+        border-radius: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .btn.primary {
+        background: var(--primary-color);
+        color: #fff;
+        box-shadow: 0 4px 10px rgba(140, 72, 234, 0.3);
+      }
+
+      .btn.primary:hover {
+        background: #7c3bd9;
+      }
+
+      .btn.secondary {
+        background: transparent;
+        border: 2px solid var(--secondary-color);
+        color: var(--secondary-color);
+      }
+
+      .btn.secondary:hover {
+        background: var(--secondary-color);
+        color: #fff;
+      }
+
+      /* 🌙 Theme Toggle */
+      .theme-toggle {
+        position: fixed;
+        top: 1.2rem;
+        right: 1.2rem;
+        z-index: 99;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 48px;
+        height: 24px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        background-color: #ccc;
+        border-radius: 24px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: 0.4s;
+      }
+
+      .slider:before {
+        content: "";
+        position: absolute;
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        border-radius: 50%;
+        transition: 0.4s;
+      }
+
+      input:checked + .slider {
+        background-color: var(--primary-color);
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(24px);
+      }
+
+      /* 🌸 Sakura Canvas */
+      #sakura-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      .palette-section {
+        padding: 3rem 2rem;
+        text-align: center;
+        background: var(--background-color);
+        z-index: 1;
+        position: relative;
+      }
+
+      .palette-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        color: var(--primary-color);
+      }
+
+      .palette-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1.5rem;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      .color-box {
+        background: var(--color);
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        color: #fff;
+        font-weight: bold;
+        position: relative;
+        transition: transform 0.3s ease;
+      }
+
+      .color-box:hover {
+        transform: translateY(-5px);
+      }
+
+      .color-box label {
+        display: block;
+        margin-top: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        opacity: 0.85;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      /* Media Queries */
+      @media (max-width: 768px) {
+        .hero {
+          padding: 4rem 1rem;
+        }
+
+        .hero-avatar {
+          width: 100%;
+          height: auto;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        .headline {
+          font-size: 2.2rem;
+        }
+
+        .description {
+          font-size: 1rem;
+        }
+
+        .hero-buttons .btn {
+          padding: 0.7rem 1.5rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .headline {
+          font-size: 1.8rem;
+        }
+
+        .description {
+          font-size: 0.9rem;
+        }
+
+        .hero-buttons .btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 🌸 Floating Sakura Petals -->
+    <canvas id="sakura-canvas"></canvas>
+
+    <!-- 🌙 Theme Toggle -->
+    <div class="theme-toggle">
+      <label class="switch">
+        <input type="checkbox" id="toggleTheme" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- 💖 Hero Section -->
+    <section class="hero">
+      <img
+        src="removed-background.png"
+        alt="Haruki Avatar"
+        class="hero-avatar"
+      />
+      <p class="tagline">Hello, I'm Haruki ✨</p>
+      <h1 class="headline"><span id="typewriter"></span></h1>
+      <p class="description">
+        I build modern, creative, anime-inspired web apps that feel as magical
+        as they function~
+      </p>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn primary">See Projects 💜</a>
+        <a href="#contact" class="btn secondary">Contact Me ✉️</a>
+      </div>
+    </section>
+    <section class="palette-section">
+      <h2>🎨 My Color Palette</h2>
+      <div class="palette-grid">
+        <div class="color-box" style="--color: #101314">
+          <span>#101314</span><label>Text (Light)</label>
+        </div>
+        <div class="color-box" style="--color: #f9f4f0">
+          <span>#f9f4f0</span><label>Background (Light)</label>
+        </div>
+        <div class="color-box" style="--color: #8c48ea">
+          <span>#8c48ea</span><label>Primary</label>
+        </div>
+        <div class="color-box" style="--color: #694612">
+          <span>#694612</span><label>Secondary</label>
+        </div>
+        <div class="color-box" style="--color: #27ddd7">
+          <span>#27ddd7</span><label>Accent</label>
+        </div>
+        <div class="color-box" style="--color: #f6dba5">
+          <span>#f6dba5</span><label>Secondary (Dark)</label>
+        </div>
+        <div class="color-box" style="--color: #f9f4f0">
+          <span>#f9f4f0</span><label>Text (Dark)</label>
+        </div>
+        <div class="color-box" style="--color: #101314">
+          <span>#101314</span><label>Background (Dark)</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🪄 Magic Scripts -->
+    <script>
+      // 🌸 Sakura Petals
+      const canvas = document.getElementById("sakura-canvas");
+      const ctx = canvas.getContext("2d");
+      let petals = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      function createPetal() {
+        return {
+          x: Math.random() * canvas.width,
+          y: Math.random() * -canvas.height,
+          r: Math.random() * 4 + 2,
+          speedY: Math.random() * 1 + 0.5,
+          speedX: Math.random() * 0.6 - 0.3,
+          opacity: Math.random() * 0.5 + 0.3,
+        };
+      }
+
+      function drawPetal(petal) {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255, 182, 193, ${petal.opacity})`;
+
+        // Draw a leaf shape
+        ctx.moveTo(petal.x, petal.y);
+        ctx.bezierCurveTo(
+          petal.x + petal.r,
+          petal.y - petal.r, // Control point 1
+          petal.x + petal.r,
+          petal.y + petal.r, // Control point 2
+          petal.x,
+          petal.y + petal.r // End point
+        );
+        ctx.bezierCurveTo(
+          petal.x - petal.r,
+          petal.y + petal.r, // Control point 1
+          petal.x - petal.r,
+          petal.y - petal.r, // Control point 2
+          petal.x,
+          petal.y // End point
+        );
+
+        ctx.fill();
+      }
+
+      function animatePetals() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (petals.length < 100) petals.push(createPetal());
+
+        for (let i = 0; i < petals.length; i++) {
+          let p = petals[i];
+          p.y += p.speedY;
+          p.x += p.speedX;
+
+          if (p.y > canvas.height) {
+            petals[i] = createPetal();
+            petals[i].y = 0;
+          }
+
+          drawPetal(p);
+        }
+
+        requestAnimationFrame(animatePetals);
+      }
+
+      animatePetals();
+
+      // ✨ Typewriter
+      const texts = [
+        "Web Developer",
+        "Anime UI Dreamer",
+        "React Sorcerer",
+        "HinaFlix Creator 💜",
+      ];
+      let index = 0;
+      let charIndex = 0;
+      const speed = 100;
+
+      function type() {
+        if (charIndex < texts[index].length) {
+          document.getElementById("typewriter").innerHTML +=
+            texts[index].charAt(charIndex);
+          charIndex++;
+          setTimeout(type, speed);
+        } else {
+          setTimeout(erase, 1500);
+        }
+      }
+
+      function erase() {
+        if (charIndex > 0) {
+          document.getElementById("typewriter").innerHTML = texts[
+            index
+          ].substring(0, charIndex - 1);
+          charIndex--;
+          setTimeout(erase, speed / 2);
+        } else {
+          index = (index + 1) % texts.length;
+          setTimeout(type, 500);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", type);
+
+      // 🌙 Theme Toggle Logic
+      const toggleTheme = document.getElementById("toggleTheme");
+      toggleTheme.addEventListener("change", () => {
+        document.body.classList.toggle("dark-mode");
+      });
+    </script>
+  </body>
+</html>
